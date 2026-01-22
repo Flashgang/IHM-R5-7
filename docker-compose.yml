@@ -1,0 +1,39 @@
+services:
+  # 1. IHM & Reverse Proxy (Le seul exposé en 8080)
+  ihm-proxy:
+    build: ./ihm
+    ports:
+      - 8080:80
+    depends_on:
+      - python-traitement  
+      - instbdc            
+
+  # 2. Traitement (Python)
+  python-traitement:
+    build: ./traitement
+    expose:
+      - 8000
+    depends_on:
+      - instbdc
+    environment:
+      # sache qui contacter
+      - CSHARP_API_URL=http://instbdc:80/api/logs
+
+  # 3. Instance BD (C#) 
+  instbdc:
+    build: ./insbd
+    expose:
+      - 80
+    depends_on:
+      - mongodb
+    environment:
+      - ConnectionString=mongodb://mongodb:27017
+
+  # 4. Bd (mongodb)
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
