@@ -16,7 +16,7 @@ Theo le Bastard - BUT 3 gpr ALT
     ```bash
     docker-compose up --build
     ```
-    Puis sur site le site inserer fichier `Localhost:8080`
+    Puis sur le site inserer fichier `Localhost:8080`
 
 - 2ème terminal (veifier que les données on été inserer)
     ```bash
